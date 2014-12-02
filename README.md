@@ -31,3 +31,6 @@ All possible commands
 ```
 
 I will add references and thanks in when I can find the websites I got inspiration from :)
+So this guy had the stepping stone for me:
+http://smileytechadventures.blogspot.com.au/
+He created a simple script to turn on/off white lights
