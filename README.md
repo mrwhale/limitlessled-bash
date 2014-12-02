@@ -11,14 +11,15 @@ I'm lazy, and this is my first commit, so my coding practices/standards are all 
 This works with v3+ of the wifi bridge (when they changed it to port 8899 instead of 5000)
 
 basic command is in this format: ./led.sh [type] [zone] [command] [param]
+
 ./led.sh w 1 on
-# This will turn on zone 1 white lights
+This will turn on zone 1 white lights
 
 ./led.sh c 0 off
-# This will turn ALL RGBW lights off (I use 0 for global)
+This will turn ALL RGBW lights off (I use 0 for global)
 
 ./led.sh w 1 b up
-# This will turn the brightness up 1 for zone 1 white lights
+This will turn the brightness up 1 for zone 1 white lights
 
 
 All possible commands
