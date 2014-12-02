@@ -11,10 +11,10 @@ type="$1"
 zone="$2"
 command="$3"
 param="$4"
+ipaddress="10.1.1.23"
+portnum="8899"
 
 function colour {
-	ipaddress="10.1.1.23"
-	portnum="8899"
 	#Colour Commands
 	on0="\x42\00\x55"
 	off0="\x41\00\x55"
@@ -26,37 +26,61 @@ function colour {
 	off3="\x4A\00\x55"
 	on4="\x4B\00\x55"
 	off4="\x4C\00\x55"
+	white0="\xC2\00\x55"
+	white1="\xC5\00\x55"
+	white2="\xC7\00\x55"
+	white3="\xC9\00\x55"
+	white4="\xC9\00\x55"
+	purple="\x40\xFF\x55"
 	#TODO add brightness and colour command
 
         zone="$1"
         command="$2"
         param="$3"
+
         if [ $command = "b" ] || [ $command = "B" ]
         then
                 echo "brightness"
 	elif [ $command = "c" ] || [ $command = "C" ]
 	then
-		echo "color"
+		echo "You just changed colour zone $zone to $param"
+		cmd=on$zone
+		cmd2=$param
+		eval cmd=\$$cmd
+		eval cmd2=\$$cmd2
+		echo $cmd
+		echo $cmd2
+		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+		sleep 0.01
+		echo -n -e "$cmd2" >/dev/udp/$ipaddress/$portnum
         elif [ $command = "on" ] || [ $command = "ON" ]
         then
-                echo "on"
+                echo "You just turned colour zone $zone on"
                 cmd=on$zone
                 eval cmd=\$$cmd
-                echo $cmd
                 echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
         elif [ $command = "off" ] || [ $command = "OFF" ]
         then
-                echo "off"
+                echo "You just turned colour zone $zone off"
                 cmd=off$zone
                 eval cmd=\$$cmd
-                echo $cmd
                 echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+	elif [ $command = "white" ]
+	then
+		echo "You just turned colour zone $zone back to white"
+		cmd2=white$zone
+		cmd=on$zone
+		eval cmd=\$$cmd
+		eval cmd2=\$$cmd2
+		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+		sleep 0.01
+		echo -n -e "$cmd2" >/dev/udp/$ipaddress/$portnum
+	else
+		echo "youve done it wrong"
         fi
 }
 
 function white {
-	ipaddress="10.1.1.23"
-	portnum="8899"
 	#white commands
 	on0="\x35\00\x55"
 	off0="\x39\00\x55"
@@ -77,17 +101,15 @@ function white {
 		echo "brightness"
 	elif [ $command = "on" ] || [ $command = "ON" ]
 	then
-		#echo "on"
+		echo "You just turned white zone $zone on"
 		cmd=on$zone
 		eval cmd=\$$cmd
-                #echo $cmd
 		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
 	elif [ $command = "off" ] || [ $command = "OFF" ]
 	then
-		#echo "off"
+		echo "You just turned white zone $zone off"
 		cmd=off$zone
 		eval cmd=\$$cmd
-		#echo $cmd
 		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
 	fi
 }
