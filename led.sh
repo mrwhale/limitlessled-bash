@@ -40,7 +40,6 @@ function colour {
                         echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
 		elif [ $param -ge 0 -a $param -le 10 ]
 		then
-			cmd="\x4E\x02\x55"
 	                echo "You turned colour bulbs in zone $zone to $param"
                         echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
                         sleep 0.01
@@ -50,6 +49,7 @@ function colour {
 		fi
 	elif [ $command = "c" ] || [ $command = "C" ]
 	then
+		# Check to make sure that the colour specified in the array before trying
 		isin=1
 		for i in "${!colours[@]}"
 		do
@@ -110,6 +110,31 @@ function white {
                         echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
                         sleep 0.01
                         echo -n -e "${nightarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+		elif [ $param = 'up ]
+		then
+			cmd="\x3C\00\x55"
+			echo "You turned white bulbs in zone $zone up 1 brightness"
+			echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+			sleep 0.01
+			echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+		elif [ $param = "down" ]
+                        cmd="\x34\00\x55"
+                        echo "You turned white bulbs in zone $zone down 1 brightness"
+                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sleep 0.01
+                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                elif [ $param = "cool" ]
+                        cmd="\x3f\00\x55"
+                        echo "You cooled down white bulbs in zone $zone"
+                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sleep 0.01
+                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                elif [ $param = "warm" ]
+                        cmd="\x3e\00\x55"
+                        echo "You warmed up white bulbs in zone $zone"
+                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sleep 0.01
+                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
 		else
 			echo "You've done something wrong"
 		fi
