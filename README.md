@@ -50,8 +50,10 @@ b - choose brightness of the lights selected
 white - change the selected zone back to white (use with [type] c)
 
 [param]
-up - turn selected lights brightness up (use with [command] b)
-down - turn selected lights brightness down (use with [command] b)
+Because of how it works, use up/down with white bulbs and 1..10 for RGBW bulb brightness
+up - turn selected lights brightness up (use with [type] w, [command] b)
+down - turn selected lights brightness down (use with [type] w, [command] b)
+1..10 - turns selected RGBW lights brightness to coressponding value (2 = 20% etc)(use with [type] c, [command] b)
 red - change the colour of the selected lights to red (use with [type] c, [command] c)
 blue - change the colour of the selected lights to blue (use with [type] c, [command] c)
 green - change the colour of the selected lights to green (use with [type] c, [command] c)
