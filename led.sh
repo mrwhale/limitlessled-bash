@@ -138,6 +138,46 @@ function white {
                         echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
                         sleep 0.01
                         echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+		elif [ $param = "i" ]
+		then
+			echo "Press CTRL+C to exit interactive mode"
+			echo "Make sure you have numlock OFF when using numpad"
+			for (( ; ; ))
+			do
+				read -s -n 1 var
+				case $var in
+				8)
+					cmd="\x3C\00\x55"
+		                        echo "You turned white bulbs in zone $zone up 1 brightness"
+                		        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+		                        sleep 0.01
+                		        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+					;;
+				2)
+					cmd="\x34\00\x55"
+		                        echo "You turned white bulbs in zone $zone down 1 brightness"
+        		                echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                		        sleep 0.01
+                        		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+					;;
+				4)
+					cmd="\x3f\00\x55"
+		                        echo "You cooled down white bulbs in zone $zone"
+        		                echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                		        sleep 0.01
+                        		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+					;;
+				6)
+					cmd="\x3e\00\x55"
+		                        echo "You warmed up white bulbs in zone $zone"
+        		                echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                		        sleep 0.01
+                        		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+					;;
+				*)
+					echo "wrong key pressed"
+				esac
+			done
 		else
 			echo "You've done something wrong"
 		fi

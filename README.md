@@ -61,6 +61,7 @@ warm - warm the selected white light up 1
 cool - cool the selected white light down 1
 night - turn the selected lights to night mode (lowest brightness, use with [command] b)
 full - turn the selected lights to full brightness (use with [command] b)
+i - Enter interactive mode. can press keys to change brightness/warmth of white lights without having to enter a new cli command. Use with white lights only (use with [type] c, [command] b)
 1..10 - turns selected RGBW lights brightness to coressponding value (2 = 20% etc)(use with [type] c, [command] b)
 red - change the colour of the selected lights to red (use with [type] c, [command] c)
 blue - change the colour of the selected lights to blue (use with [type] c, [command] c)
