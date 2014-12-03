@@ -27,7 +27,9 @@ basic command is in this format: ./led.sh [type] [zone] [command] [param]
 
 All possible commands
 ```bash
-./led.sh [w,c] [0..4] [on,off,c,b] [up,down,1..10,red,blue,green,yellow,purple,night,full]
+./led.sh [type] [zone] [command] [param]
+
+./led.sh [w,c] [0..4] [on,off,white,c,b] [up,down,1..10,red,blue,green,yellow,purple,night,full]
 
 [type]
 c - to choose the colour (RGBW) bulbs
@@ -45,6 +47,7 @@ on - turn selected lights on
 off - turn selected lights off
 c - choose colour of lights (use with [type] c)
 b - choose brightness of the lights selected
+white - change the selected zone back to white (use with [type] c)
 
 [param]
 up - turn selected lights brightness up (use with [command] b)
