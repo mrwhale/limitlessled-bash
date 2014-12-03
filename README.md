@@ -27,6 +27,8 @@ basic command is in this format: ./led.sh [type] [zone] [command] [param]
 
 All possible commands
 ```bash
+./led.sh [type] [zone] [command] [param]
+
 ./led.sh [w,c] [0..4] [on,off,white,c,b] [up,down,1..10,red,blue,green,yellow,purple,night,full]
 
 [type]
