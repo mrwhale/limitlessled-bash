@@ -118,18 +118,21 @@ function white {
 			sleep 0.01
 			echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
 		elif [ $param = "down" ]
+		then
                         cmd="\x34\00\x55"
                         echo "You turned white bulbs in zone $zone down 1 brightness"
                         echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
                         sleep 0.01
                         echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
                 elif [ $param = "cool" ]
+		then
                         cmd="\x3f\00\x55"
                         echo "You cooled down white bulbs in zone $zone"
                         echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
                         sleep 0.01
                         echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
                 elif [ $param = "warm" ]
+		then
                         cmd="\x3e\00\x55"
                         echo "You warmed up white bulbs in zone $zone"
                         echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
