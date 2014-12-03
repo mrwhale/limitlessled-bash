@@ -25,12 +25,29 @@ function colour {
 	offarray=("\x41\00\x55" "\x46\00\x55" "\x48\00\x55" "\x4A\00\x55" "\x4C\00\x55")
 	# Array for white commands
 	whitearray=("\xC2\00\x55" "\xC5\00\x55" "\xC7\00\x55" "\xC9\00\x55" "\xC9\00\x55")
-
+	brightarray=("\x4E\x02\x55" "\x4E\x04\x55" "\x4E\x08\x55" "\x4E\xA0\x55" "\x4E\xD0\x55" "\x4E\xD0\x55" "\x4E\x10\x55" "\x4E\x13\x55" "\x4E\x16\x55" "\x4E\x18\x55" "\x4E\x1B\x55")
 	#TODO add brightness
 
         if [ $command = "b" ] || [ $command = "B" ]
         then
                 echo "brightness"
+		if [ $param = "full" ]
+		then
+			cmd="\x4E\x3B\x55"
+			echo "You turned colour bulbs in zone $zone to full brightness"
+			echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sleep 0.01
+                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+		elif [ $param -ge 0 -a $param -le 10 ]
+		then
+			cmd="\x4E\x02\x55"
+	                echo "You turned colour bulbs in zone $zone to $param"
+                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sleep 0.01
+                        echo -n -e "${brightarray[$param]}" >/dev/udp/$ipaddress/$portnum
+		else
+			echo "You've done something wrong"
+		fi
 	elif [ $command = "c" ] || [ $command = "C" ]
 	then
 		isin=1
@@ -74,11 +91,28 @@ function white {
 	#white commands
 	onarray=("\x35\00\x55" "\x38\00\x55" "\x3D\00\x55" "\x37\00\x55" "\x32\00\x55")
 	offarray=("\x39\00\x55" "\x3B\00\x55" "\x33\00\x55" "\x3A\00\x55" "\x36\00\x55")
+	fullbrightarray=("\xB5\00\x55" "\xB8\00\x55" "\xBD\00\x55" "\xB7\00\x55" "\xB2\00\x55")
+	nightarray=("\xB9\00\x55" "\xBB\00\x55" "\xB3\00\x55" "\xBA\00\x55" "\xB6\00\x55")
 	#TODO add brightness commands for white
 
 	if [ $command = "b" ] || [ $command = "B" ]
 	then
 		echo "brightness"
+		if [ $param = "night" ]
+		then
+			echo "You turned white bulbs in zone $zone to night-mode"
+			echo -n -e "${offarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+			sleep 0.01
+			echo -n -e "${nightarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+		elif [ $param = "full" ]
+		then
+			echo "You turned white bulbs in zone $zone to full brightness"
+                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sleep 0.01
+                        echo -n -e "${nightarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+		else
+			echo "You've done something wrong"
+		fi
 	elif [ $command = "on" ] || [ $command = "ON" ]
 	then
 		echo "You just turned white bulbs in zone $zone on"
