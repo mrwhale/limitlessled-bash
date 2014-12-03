@@ -6,10 +6,14 @@ Command line control over limitlessLED lights
 I trolled the internet and only found snippets of stuff for limitless and command line linux,
 so I decided to create a shell script myself. Primarily to run off my raspberry pi, but in theory can be used anywhere
 
-I'm lazy, and this is my first commit, so its are all over the shop. Once the functionality is there I will clean everything up :)
+So while I'm at my desk, I don't have to reach for my phone anymore. Just Alt+tab to my terminal and away I go
 
 This works with v3+ of the wifi bridge (when they changed it to port 8899 instead of 5000)
 
+## Setup
+Open the script, change the ipaddress to either the IP address of the wifi controller, or the broadcast address of your LAN, save, make sure its executable, and your ready to go
+
+## Usage
 basic command is in this format: ./led.sh [type] [zone] [command] [param]
 ```bash
 ./led.sh w 1 on
@@ -29,7 +33,7 @@ All possible commands
 ```bash
 ./led.sh [type] [zone] [command] [param]
 
-./led.sh [w,c] [0..4] [on,off,white,c,b] [up,down,1..10,red,blue,green,yellow,purple,night,full]
+./led.sh [w,c] [0..4] [on,off,white,c,b] [up,down,1..10,cool,warm,full,night,red,blue,green,yellow,purple,orange,pink]
 
 [type]
 c - to choose the colour (RGBW) bulbs
@@ -53,16 +57,17 @@ white - change the selected zone back to white (use with [type] c)
 Because of how it works, use up/down with white bulbs and 1..10 for RGBW bulb brightness
 up - turn selected lights brightness up (use with [type] w, [command] b)
 down - turn selected lights brightness down (use with [type] w, [command] b)
+warm - warm the selected white light up 1
+cool - cool the selected white light down 1
+night - turn the selected lights to night mode (lowest brightness, use with [command] b)
+full - turn the selected lights to full brightness (use with [command] b)
 1..10 - turns selected RGBW lights brightness to coressponding value (2 = 20% etc)(use with [type] c, [command] b)
 red - change the colour of the selected lights to red (use with [type] c, [command] c)
 blue - change the colour of the selected lights to blue (use with [type] c, [command] c)
 green - change the colour of the selected lights to green (use with [type] c, [command] c)
 yellow - change the colour of the selected lights to yellow (use with [type] c, [command] c)
 purple - change the colour of the selected lights to purple (use with [type] c, [command] c)
-night - turn the selected lights to night mode (lowest brightness, use with [command] b)
-full - turn the selected lights to full brightness (use with [command] b)
 ```
-
 
 So this guy had the stepping stone for me:
 
