@@ -34,10 +34,6 @@ function colour {
 	purple="\x40\xFF\x55"
 	#TODO add brightness and colour command
 
-        zone="$1"
-        command="$2"
-        param="$3"
-
         if [ $command = "b" ] || [ $command = "B" ]
         then
                 echo "brightness"
@@ -93,9 +89,7 @@ function white {
 	on4="\x32\00\x55"
 	off4="\x36\00\x55"
 	#TODO add brightness commands for white
-	zone="$1"
-	command="$2"
-	param="$3"
+
 	if [ $command = "b" ] || [ $command = "B" ]
 	then
 		echo "brightness"
@@ -119,11 +113,11 @@ function white {
 if [ $type = "c" ] || [ $type = "C" ]
 then
 	echo "you want to turn colour lights"
-	colour $zone $command $param	
+	colour
 elif [ $type = "w" ] || [ $type = "W" ]
 then
 	#echo "you want to turn white"
-	white $zone $command $param
+	white
 else
 	echo "You've done something wrong"
 fi
