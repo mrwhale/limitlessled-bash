@@ -110,7 +110,7 @@ function white {
                         echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
                         sleep 0.01
                         echo -n -e "${nightarray[$zone]}" >/dev/udp/$ipaddress/$portnum
-		elif [ $param = 'up ]
+		elif [ $param = "up" ]
 		then
 			cmd="\x3C\00\x55"
 			echo "You turned white bulbs in zone $zone up 1 brightness"
