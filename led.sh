@@ -27,10 +27,24 @@ function colour {
                 echo "brightness"
 	elif [ $command = "c" ] || [ $command = "C" ]
 	then
-		echo "You just changed colour zone $zone to $param"
-		echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
-		sleep 0.01
-		echo -n -e "${colours[$param]}" >/dev/udp/$ipaddress/$portnum
+		isin=1
+		for i in "${!colours[@]}"
+		do
+        		if [ "$i" = "$param" ]
+        		then
+                		isin=0
+        		fi
+  		done
+
+		if [ "$isin" -eq "0" ]
+		then
+			echo "You just changed colour zone $zone to $param"
+			echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+			sleep 0.01
+			echo -n -e "${colours[$param]}" >/dev/udp/$ipaddress/$portnum
+		else
+			echo "Colour: $param isn't configured"
+		fi
         elif [ $command = "on" ] || [ $command = "ON" ]
         then
                 echo "You just turned colour zone $zone on" 
@@ -74,11 +88,9 @@ function white {
 
 if [ $type = "c" ] || [ $type = "C" ]
 then
-	echo "you want to turn colour lights"
 	colour
 elif [ $type = "w" ] || [ $type = "W" ]
 then
-	#echo "you want to turn white"
 	white
 else
 	echo "You've done something wrong"
