@@ -76,7 +76,7 @@ function colour {
 		sleep 0.01
 		echo -n -e "$cmd2" >/dev/udp/$ipaddress/$portnum
 	else
-		echo "youve done it wrong"
+		echo "You've done something wrong"
         fi
 }
 
@@ -111,6 +111,8 @@ function white {
 		cmd=off$zone
 		eval cmd=\$$cmd
 		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+	else
+		echo "You've done something wrong"
 	fi
 }
 
@@ -122,4 +124,6 @@ elif [ $type = "w" ] || [ $type = "W" ]
 then
 	#echo "you want to turn white"
 	white $zone $command $param
+else
+	echo "You've done something wrong"
 fi
