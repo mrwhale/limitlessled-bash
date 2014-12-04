@@ -4,7 +4,7 @@ limitlessled-bash
 Command line control over limitlessLED lights
 
 I trolled the internet and only found snippets of stuff for limitless and command line linux,
-so I decided to create a shell script myself. Primarily to run off my raspberry pi, but in theory can be used anywhere
+so I decided to create a bash script myself. Primarily to run off my raspberry pi, but in theory can be used anywhere
 
 So while I'm at my desk, I don't have to reach for my phone anymore. Just Alt+tab to my terminal and away I go
 
