@@ -143,7 +143,7 @@ function white {
 		elif [ $param = "i" ]
 		then
 			echo "Press CTRL+C to exit interactive mode"
-			echo "Make sure you have numlock OFF when using numpad"
+			echo "Make sure you have numlock ON when using numpad"
 			for (( ; ; ))
 			do
 				read -s -n 1 var
