@@ -51,7 +51,6 @@ on - turn selected lights on
 off - turn selected lights off
 c - choose colour of lights (use with [type] c)
 b - choose brightness of the lights selected
-white - change the selected zone back to white (use with [type] c)
 
 [param]
 Because of how it works, use up/down with white bulbs and 1..10 for RGBW bulb brightness
@@ -68,6 +67,7 @@ blue - change the colour of the selected lights to blue (use with [type] c, [com
 green - change the colour of the selected lights to green (use with [type] c, [command] c)
 yellow - change the colour of the selected lights to yellow (use with [type] c, [command] c)
 purple - change the colour of the selected lights to purple (use with [type] c, [command] c)
+white - change the selected zone back to white (use with [type] c)
 ```
 
 So this guy had the stepping stone for me:

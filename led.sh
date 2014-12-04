@@ -51,22 +51,30 @@ function colour {
 	then
 		# Check to make sure that the colour specified in the array before trying
 		isin=1
-		for i in "${!colours[@]}"
-		do
-        		if [ "$i" = "$param" ]
-        		then
-                		isin=0
-        		fi
-  		done
-
-		if [ "$isin" -eq "0" ]
-		then
-			echo "You just changed colour bulbs in zone $zone to $param"
-			echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
-			sleep 0.01
-			echo -n -e "${colours[$param]}" >/dev/udp/$ipaddress/$portnum
+                if [ $param = "white" ]
+                then
+                        echo "You just turned colour bulbs in zone $zone back to white"
+                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sleep 0.01
+                        echo -n -e "${whitearray[$zone]}" >/dev/udp/$ipaddress/$portnum
 		else
-			echo "Colour $param isn't configured"
+			for i in "${!colours[@]}"
+			do
+        			if [ "$i" = "$param" ]
+        			then
+                			isin=0
+	        		fi
+  			done
+
+			if [ "$isin" -eq "0" ]
+			then
+				echo "You just changed colour bulbs in zone $zone to $param"
+				echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+				sleep 0.01
+				echo -n -e "${colours[$param]}" >/dev/udp/$ipaddress/$portnum
+			else
+				echo "Colour $param isn't configured"
+			fi
 		fi
         elif [ $command = "on" ] || [ $command = "ON" ]
         then
@@ -76,12 +84,6 @@ function colour {
         then
                 echo "You just turned colour bulbs in zone $zone off"
                 echo -n -e "${offarray[$zone]}" >/dev/udp/$ipaddress/$portnum
-	elif [ $command = "white" ]
-	then
-		echo "You just turned colour bulbs in zone $zone back to white"
-		echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
-		sleep 0.01
-		echo -n -e "${whitearray[$zone]}" >/dev/udp/$ipaddress/$portnum
 	else
 		echo "You've done something wrong"
         fi
