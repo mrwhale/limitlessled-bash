@@ -43,6 +43,9 @@ function selectZone {
 	sleep 0.01
 }
 
+##########
+# lightbulb type specific functions
+##########
 function colour {
 	#RGBW bulb Commands
 	onarray=("\x42\00\x55" "\x45\00\x55" "\x47\00\x55" "\x49\00\x55" "\x4B\00\x55")
