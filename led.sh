@@ -48,20 +48,17 @@ function selectZone {
 # lightbulb type specific functions
 ##########
 function colour {
-    #Constant bits
-    bright="\x4E"
-    color="\x40"
 	#RGBW bulb Commands
 	onarray=("\x42" "\x45" "\x47" "\x49" "\x4B")
 	offarray=("\x41" "\x46" "\x48" "\x4A" "\x4C")
-	# Array for white commands
-	whitearray=("\xC2\00" "\xC5\00" "\xC7\00" "\xC9\00" "\xC9\00")
-	brightarray=("\x02" "\x04" "\x08" "\x0A" "\x0B" "\xD0" "\x10" "\x13" "\x16" "\x19" "\x1B")
-    #Colour array
-    declare -A colours=( ["purple"]="\x00" ["blue"]="\x20" ["red"]="\xb0" ["green"]="\x60" ["yellow"]="\x80" ["pink"]="\xC0" ["orange"]="\xA0" )
-		
+    
+    # Brightness	
 	if [ $command = "b" ] || [ $command = "B" ]
 	then
+        # Constants
+        bright="\x4E"    
+        brightarray=("\x02" "\x04" "\x08" "\x0A" "\x0B" "\xD0" "\x10" "\x13" "\x16" "\x19" "\x1B")
+        
 		if [ $param = "full" ]
 		then
 			cmd="$bright\x3B"
@@ -76,8 +73,13 @@ function colour {
 		else
 			echo "You've done something wrong"
 	fi
+    # Color
 	elif [ $command = "c" ] || [ $command = "C" ]
-	then
+    then
+        color="\x40"
+        whitearray=("\xC2\00" "\xC5\00" "\xC7\00" "\xC9\00" "\xC9\00")
+        declare -A colours=( ["purple"]="\x00" ["blue"]="\x20" ["red"]="\xb0" ["green"]="\x60" ["yellow"]="\x80" ["pink"]="\xC0" ["orange"]="\xA0" )
+
 		# Check to make sure that the colour specified in the array before trying
 		isin=1
 		if [ $param = "white" ]
@@ -103,10 +105,12 @@ function colour {
 				echo "Colour $param isn't configured"
 			fi
 		fi
+        # On
 		elif [ $command = "on" ] || [ $command = "ON" ]
 		then
 			echo "You just turned colour bulbs in zone $zone on" 
 			sendCmd "${onarray[$zone]}$standby"
+        # Off
 		elif [ $command = "off" ] || [ $command = "OFF" ]
 		then
 			echo "You just turned colour bulbs in zone $zone off"
