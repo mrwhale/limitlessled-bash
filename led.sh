@@ -10,6 +10,9 @@ fi
 ipaddress="10.1.1.23"
 portnum="8899"
 
+##########
+# Input
+##########
 # Script parameters
 type="$1"
 zone="$2"
@@ -21,6 +24,7 @@ param="$4"
 ##########
 #Colour array
 declare -A colours=( ["purple"]="\x40\x00\x55" ["blue"]="\x40\x20\x55" ["red"]="\x40\xb0\x55" ["green"]="\x40\x60\x55" ["yellow"]="\x40\x80\x55" ["pink"]="\x40\xC0\x55" ["orange"]="\x40\xA0\x55" )
+
 
 ##########
 # Helper functions
