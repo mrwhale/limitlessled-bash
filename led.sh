@@ -30,7 +30,6 @@ function colour {
 
         if [ $command = "b" ] || [ $command = "B" ]
         then
-                echo "brightness"
 		if [ $param = "full" ]
 		then
 			cmd="\x4E\x3B\x55"
@@ -99,7 +98,6 @@ function white {
 
 	if [ $command = "b" ] || [ $command = "B" ]
 	then
-		echo "brightness"
 		if [ $param = "night" ]
 		then
 			echo "You turned white bulbs in zone $zone to night-mode"
