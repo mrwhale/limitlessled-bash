@@ -50,19 +50,21 @@ function selectZone {
 # lightbulb type specific functions
 ##########
 function colour {
+    #Constant bits
+    bright="\x4E"
 	#RGBW bulb Commands
 	onarray=("\x42" "\x45" "\x47" "\x49" "\x4B")
 	offarray=("\x41" "\x46" "\x48" "\x4A" "\x4C")
 	# Array for white commands
 	whitearray=("\xC2\00" "\xC5\00" "\xC7\00" "\xC9\00" "\xC9\00")
-	brightarray=("\x4E\x02" "\x4E\x04" "\x4E\x08" "\x4E\x0A" "\x4E\x0B" "\x4E\xD0" "\x4E\x10" "\x4E\x13" "\x4E\x16" "\x4E\x19" "\x4E\x1B")
+	brightarray=("\x02" "\x04" "\x08" "\x0A" "\x0B" "\xD0" "\x10" "\x13" "\x16" "\x19" "\x1B")
 	#TODO add brightness
 		
 		if [ $command = "b" ] || [ $command = "B" ]
 		then
 		if [ $param = "full" ]
 		then
-			cmd="\x4E\x3B"
+			cmd="$bright\x3B"
 			echo "You turned colour bulbs in zone $zone to full brightness"
 			selectZone
 			sendCmd "$cmd"
@@ -70,7 +72,7 @@ function colour {
 		then
 			echo "You turned colour bulbs in zone $zone to $param"
 			selectZone
-			sendCmd "${brightarray[$param]}"
+			sendCmd "$bright${brightarray[$param]}"
 		else
 			echo "You've done something wrong"
 		fi
@@ -114,7 +116,7 @@ function colour {
 		fi
 }
 
-function white {
+function white {   
 	#white commands
 	onarray=("\x35" "\x38" "\x3D" "\x37" "\x32")
 	offarray=("\x39" "\x3B" "\x33" "\x3A" "\x36")
