@@ -19,6 +19,12 @@ param="$4"
 #Colour array
 declare -A colours=( ["purple"]="\x40\x00\x55" ["blue"]="\x40\x20\x55" ["red"]="\x40\xb0\x55" ["green"]="\x40\x60\x55" ["yellow"]="\x40\x80\x55" ["pink"]="\x40\xC0\x55" ["orange"]="\x40\xA0\x55" )
 
+# Generic send any command the controller
+function sendCmd {
+    cmd=$1
+    echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+}
+
 function colour {
 	#RGBW bulb Commands
 	onarray=("\x42\00\x55" "\x45\00\x55" "\x47\00\x55" "\x49\00\x55" "\x4B\00\x55")
@@ -34,15 +40,15 @@ function colour {
 		then
 			cmd="\x4E\x3B\x55"
 			echo "You turned colour bulbs in zone $zone to full brightness"
-			echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+			sendCmd "${onarray[$zone]}"
                         sleep 0.01
-                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "$cmd"
 		elif [ $param -ge 0 -a $param -le 10 ]
 		then
 	                echo "You turned colour bulbs in zone $zone to $param"
-                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${onarray[$zone]}"
                         sleep 0.01
-                        echo -n -e "${brightarray[$param]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${brightarray[$param]}"
 		else
 			echo "You've done something wrong"
 		fi
@@ -53,9 +59,9 @@ function colour {
                 if [ $param = "white" ]
                 then
                         echo "You just turned colour bulbs in zone $zone back to white"
-                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${onarray[$zone]}"
                         sleep 0.01
-                        echo -n -e "${whitearray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${whitearray[$zone]}"
 		else
 			for i in "${!colours[@]}"
 			do
@@ -68,9 +74,9 @@ function colour {
 			if [ "$isin" -eq "0" ]
 			then
 				echo "You just changed colour bulbs in zone $zone to $param"
-				echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+				sendCmd "${onarray[$zone]}"
 				sleep 0.01
-				echo -n -e "${colours[$param]}" >/dev/udp/$ipaddress/$portnum
+				sendCmd "${colours[$param]}"
 			else
 				echo "Colour $param isn't configured"
 			fi
@@ -78,11 +84,11 @@ function colour {
         elif [ $command = "on" ] || [ $command = "ON" ]
         then
                 echo "You just turned colour bulbs in zone $zone on" 
-                echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                sendCmd "${onarray[$zone]}"
         elif [ $command = "off" ] || [ $command = "OFF" ]
         then
                 echo "You just turned colour bulbs in zone $zone off"
-                echo -n -e "${offarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                sendCmd "${offarray[$zone]}"
 	else
 		echo "You've done something wrong"
         fi
@@ -101,43 +107,43 @@ function white {
 		if [ $param = "night" ]
 		then
 			echo "You turned white bulbs in zone $zone to night-mode"
-			echo -n -e "${offarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+			sendCmd "${offarray[$zone]}"
 			sleep 0.01
-			echo -n -e "${nightarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+			sendCmd "${nightarray[$zone]}"
 		elif [ $param = "full" ]
 		then
 			echo "You turned white bulbs in zone $zone to full brightness"
-                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${onarray[$zone]}"
                         sleep 0.01
-                        echo -n -e "${nightarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${nightarray[$zone]}"
 		elif [ $param = "up" ]
 		then
 			cmd="\x3C\00\x55"
 			echo "You turned white bulbs in zone $zone up 1 brightness"
-			echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+			sendCmd "${onarray[$zone]}"
 			sleep 0.01
-			echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+			sendCmd "$cmd"
 		elif [ $param = "down" ]
 		then
                         cmd="\x34\00\x55"
                         echo "You turned white bulbs in zone $zone down 1 brightness"
-                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${onarray[$zone]}"
                         sleep 0.01
-                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "$cmd"
                 elif [ $param = "cool" ]
 		then
                         cmd="\x3f\00\x55"
                         echo "You cooled down white bulbs in zone $zone"
-                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${onarray[$zone]}"
                         sleep 0.01
-                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "$cmd"
                 elif [ $param = "warm" ]
 		then
                         cmd="\x3e\00\x55"
                         echo "You warmed up white bulbs in zone $zone"
-                        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "${onarray[$zone]}"
                         sleep 0.01
-                        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                        sendCmd "$cmd"
 		elif [ $param = "i" ]
 		then
 			echo "Press CTRL+C to exit interactive mode"
@@ -149,30 +155,30 @@ function white {
 				8)
 					cmd="\x3C\00\x55"
 		                        echo "You turned white bulbs in zone $zone up 1 brightness"
-                		        echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+                		        sendCmd "${onarray[$zone]}"
 		                        sleep 0.01
-                		        echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                		        sendCmd "$cmd"
 					;;
 				2)
 					cmd="\x34\00\x55"
 		                        echo "You turned white bulbs in zone $zone down 1 brightness"
-        		                echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+        		                sendCmd "${onarray[$zone]}"
                 		        sleep 0.01
-                        		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                        		sendCmd "$cmd"
 					;;
 				4)
 					cmd="\x3f\00\x55"
 		                        echo "You cooled down white bulbs in zone $zone"
-        		                echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+        		                sendCmd "${onarray[$zone]}"
                 		        sleep 0.01
-                        		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                        		sendCmd "$cmd"
 					;;
 				6)
 					cmd="\x3e\00\x55"
 		                        echo "You warmed up white bulbs in zone $zone"
-        		                echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+        		                sendCmd "${onarray[$zone]}"
                 		        sleep 0.01
-                        		echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
+                        		sendCmd "$cmd"
 					;;
 				*)
 					echo "wrong key pressed"
@@ -184,11 +190,11 @@ function white {
 	elif [ $command = "on" ] || [ $command = "ON" ]
 	then
 		echo "You just turned white bulbs in zone $zone on"
-		echo -n -e "${onarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+		sendCmd "${onarray[$zone]}"
 	elif [ $command = "off" ] || [ $command = "OFF" ]
 	then
 		echo "You just turned white bulbs in zone $zone off"
-		echo -n -e "${offarray[$zone]}" >/dev/udp/$ipaddress/$portnum
+		sendCmd "${offarray[$zone]}"
 	else
 		echo "You've done something wrong"
 	fi
