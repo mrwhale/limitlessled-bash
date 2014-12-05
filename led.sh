@@ -55,8 +55,8 @@ function colour {
 	brightarray=("\x4E\x02\x55" "\x4E\x04\x55" "\x4E\x08\x55" "\x4E\x0A\x55" "\x4E\x0B\x55" "\x4E\xD0\x55" "\x4E\x10\x55" "\x4E\x13\x55" "\x4E\x16\x55" "\x4E\x19\x55" "\x4E\x1B\x55")
 	#TODO add brightness
 		
-		if [ $command = "b" ] || [ $command = "B" ]
-		then
+	if [ $command = "b" ] || [ $command = "B" ]
+	then
 		if [ $param = "full" ]
 		then
 			cmd="\x4E\x3B\x55"
@@ -78,17 +78,16 @@ function colour {
 		if [ $param = "white" ]
 		then
 			echo "You just turned colour bulbs in zone $zone back to white"
-            selectZone
+	                selectZone
 			sendCmd "${whitearray[$zone]}"
 		else
 			for i in "${!colours[@]}"
 			do
-            	if [ "$i" = "$param" ]
-                then
+            			if [ "$i" = "$param" ]
+                		then
 					isin=0
 				fi
   			done
-
 			if [ "$isin" -eq "0" ]
 			then
 				echo "You just changed colour bulbs in zone $zone to $param"
@@ -98,17 +97,17 @@ function colour {
 				echo "Colour $param isn't configured"
 			fi
 		fi
-		elif [ $command = "on" ] || [ $command = "ON" ]
-		then
-			echo "You just turned colour bulbs in zone $zone on" 
-			sendCmd "${onarray[$zone]}"
-		elif [ $command = "off" ] || [ $command = "OFF" ]
-		then
-			echo "You just turned colour bulbs in zone $zone off"
-			sendCmd "${offarray[$zone]}"
+	elif [ $command = "on" ] || [ $command = "ON" ]
+	then
+		echo "You just turned colour bulbs in zone $zone on" 
+		sendCmd "${onarray[$zone]}"
+	elif [ $command = "off" ] || [ $command = "OFF" ]
+	then
+		echo "You just turned colour bulbs in zone $zone off"
+		sendCmd "${offarray[$zone]}"
 	else
 		echo "You've done something wrong"
-		fi
+	fi
 }
 
 function white {
@@ -129,8 +128,8 @@ function white {
 		elif [ $param = "full" ]
 		then
 			echo "You turned white bulbs in zone $zone to full brightness"
-            selectZone
-            sendCmd "${nightarray[$zone]}"
+            		selectZone
+   	                sendCmd "${nightarray[$zone]}"
 		elif [ $param = "up" ]
 		then
 			cmd="\x3C\00\x55"
@@ -139,22 +138,22 @@ function white {
 			sendCmd "$cmd"
 		elif [ $param = "down" ]
 		then
-            cmd="\x34\00\x55"
-            echo "You turned white bulbs in zone $zone down 1 brightness"
-            selectZone
+            		cmd="\x34\00\x55"
+    	                echo "You turned white bulbs in zone $zone down 1 brightness"
+           	        selectZone
 			sendCmd "$cmd"
-        elif [ $param = "cool" ]
+        	elif [ $param = "cool" ]
 		then
-            cmd="\x3f\00\x55"
-            echo "You cooled down white bulbs in zone $zone"
-            selectZone
-            sendCmd "$cmd"
-            elif [ $param = "warm" ]
+			cmd="\x3f\00\x55"
+	                echo "You cooled down white bulbs in zone $zone"
+	                selectZone
+	                sendCmd "$cmd"
+	        elif [ $param = "warm" ]
 		then
-            cmd="\x3e\00\x55"
-            echo "You warmed up white bulbs in zone $zone"
-            selectZone
-            sendCmd "$cmd"
+	                cmd="\x3e\00\x55"
+	                echo "You warmed up white bulbs in zone $zone"
+	                selectZone
+	                sendCmd "$cmd"
 		elif [ $param = "i" ]
 		then
 			echo "Press CTRL+C to exit interactive mode"
@@ -165,27 +164,27 @@ function white {
 				case $var in
 				8)
 					cmd="\x3C\00\x55"
-                    echo "You turned white bulbs in zone $zone up 1 brightness"
-                    selectZone
-                    sendCmd "$cmd"
+	           		        echo "You turned white bulbs in zone $zone up 1 brightness"
+		                        selectZone
+	              		        sendCmd "$cmd"
 					;;
 				2)
 					cmd="\x34\00\x55"
-                    echo "You turned white bulbs in zone $zone down 1 brightness"
-                    selectZone
-                    sendCmd "$cmd"
+	                	        echo "You turned white bulbs in zone $zone down 1 brightness"
+            		        	selectZone
+		                        sendCmd "$cmd"
 					;;
 				4)
 					cmd="\x3f\00\x55"
-                    echo "You cooled down white bulbs in zone $zone"
-                    selectZone
-                    sendCmd "$cmd"
+	                        	echo "You cooled down white bulbs in zone $zone"
+	            		        selectZone
+		                        sendCmd "$cmd"
 					;;
 				6)
 					cmd="\x3e\00\x55"
-                    echo "You warmed up white bulbs in zone $zone"
-                    selectZone
-                    sendCmd "$cmd"
+        	                	echo "You warmed up white bulbs in zone $zone"
+	                    		selectZone
+		                        sendCmd "$cmd"
 					;;
 				*)
 					echo "wrong key pressed"
