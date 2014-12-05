@@ -60,8 +60,8 @@ function colour {
     #Colour array
     declare -A colours=( ["purple"]="\x00" ["blue"]="\x20" ["red"]="\xb0" ["green"]="\x60" ["yellow"]="\x80" ["pink"]="\xC0" ["orange"]="\xA0" )
 		
-		if [ $command = "b" ] || [ $command = "B" ]
-		then
+	if [ $command = "b" ] || [ $command = "B" ]
+	then
 		if [ $param = "full" ]
 		then
 			cmd="$bright\x3B"
@@ -75,7 +75,7 @@ function colour {
 			sendCmd "$bright${brightarray[$param]}"
 		else
 			echo "You've done something wrong"
-		fi
+	fi
 	elif [ $command = "c" ] || [ $command = "C" ]
 	then
 		# Check to make sure that the colour specified in the array before trying
@@ -113,7 +113,7 @@ function colour {
 			sendCmd "${offarray[$zone]}$standby"
 	else
 		echo "You've done something wrong"
-		fi
+	fi
 }
 
 function white {   
