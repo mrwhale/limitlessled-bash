@@ -29,8 +29,6 @@ param="$4"
 #Constant bits
 ctrl="\x55"
 standby="\00"
-#Colour array
-declare -A colours=( ["purple"]="\x40\x00" ["blue"]="\x40\x20" ["red"]="\x40\xb0" ["green"]="\x40\x60" ["yellow"]="\x40\x80" ["pink"]="\x40\xC0" ["orange"]="\x40\xA0" )
 
 ##########
 # Helper functions
@@ -52,13 +50,15 @@ function selectZone {
 function colour {
     #Constant bits
     bright="\x4E"
+    color="\x40"
 	#RGBW bulb Commands
 	onarray=("\x42" "\x45" "\x47" "\x49" "\x4B")
 	offarray=("\x41" "\x46" "\x48" "\x4A" "\x4C")
 	# Array for white commands
 	whitearray=("\xC2\00" "\xC5\00" "\xC7\00" "\xC9\00" "\xC9\00")
 	brightarray=("\x02" "\x04" "\x08" "\x0A" "\x0B" "\xD0" "\x10" "\x13" "\x16" "\x19" "\x1B")
-	#TODO add brightness
+    #Colour array
+    declare -A colours=( ["purple"]="\x00" ["blue"]="\x20" ["red"]="\xb0" ["green"]="\x60" ["yellow"]="\x80" ["pink"]="\xC0" ["orange"]="\xA0" )
 		
 		if [ $command = "b" ] || [ $command = "B" ]
 		then
@@ -86,7 +86,7 @@ function colour {
             selectZone
 			sendCmd "${whitearray[$zone]}"
 		else
-			for i in "${!colours[@]}"
+			for i in "$color${!colours[@]}"
 			do
             	if [ "$i" = "$param" ]
                 then
@@ -98,7 +98,7 @@ function colour {
 			then
 				echo "You just changed colour bulbs in zone $zone to $param"
 				selectZone
-				sendCmd "${colours[$param]}"
+				sendCmd "$color${colours[$param]}"
 			else
 				echo "Colour $param isn't configured"
 			fi
