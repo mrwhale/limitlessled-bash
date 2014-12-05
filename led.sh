@@ -28,6 +28,7 @@ param="$4"
 ##########
 #Constant bits
 ctrl="\x55"
+standby="\00"
 #Colour array
 declare -A colours=( ["purple"]="\x40\x00" ["blue"]="\x40\x20" ["red"]="\x40\xb0" ["green"]="\x40\x60" ["yellow"]="\x40\x80" ["pink"]="\x40\xC0" ["orange"]="\x40\xA0" )
 
@@ -41,7 +42,7 @@ function sendCmd {
 }
 # Select zone by sending standby cmd and sleep for a second
 function selectZone {
-	sendCmd "${onarray[$zone]}"
+	sendCmd "${onarray[$zone]}$standby"
 	sleep 0.01
 }
 
@@ -50,8 +51,8 @@ function selectZone {
 ##########
 function colour {
 	#RGBW bulb Commands
-	onarray=("\x42\00" "\x45\00" "\x47\00" "\x49\00" "\x4B\00")
-	offarray=("\x41\00" "\x46\00" "\x48\00" "\x4A\00" "\x4C\00")
+	onarray=("\x42" "\x45" "\x47" "\x49" "\x4B")
+	offarray=("\x41" "\x46" "\x48" "\x4A" "\x4C")
 	# Array for white commands
 	whitearray=("\xC2\00" "\xC5\00" "\xC7\00" "\xC9\00" "\xC9\00")
 	brightarray=("\x4E\x02" "\x4E\x04" "\x4E\x08" "\x4E\x0A" "\x4E\x0B" "\x4E\xD0" "\x4E\x10" "\x4E\x13" "\x4E\x16" "\x4E\x19" "\x4E\x1B")
@@ -103,11 +104,11 @@ function colour {
 		elif [ $command = "on" ] || [ $command = "ON" ]
 		then
 			echo "You just turned colour bulbs in zone $zone on" 
-			sendCmd "${onarray[$zone]}"
+			sendCmd "${onarray[$zone]}$standby"
 		elif [ $command = "off" ] || [ $command = "OFF" ]
 		then
 			echo "You just turned colour bulbs in zone $zone off"
-			sendCmd "${offarray[$zone]}"
+			sendCmd "${offarray[$zone]}$standby"
 	else
 		echo "You've done something wrong"
 		fi
@@ -115,8 +116,8 @@ function colour {
 
 function white {
 	#white commands
-	onarray=("\x35\00" "\x38\00" "\x3D\00" "\x37\00" "\x32\00")
-	offarray=("\x39\00" "\x3B\00" "\x33\00" "\x3A\00" "\x36\00")
+	onarray=("\x35" "\x38" "\x3D" "\x37" "\x32")
+	offarray=("\x39" "\x3B" "\x33" "\x3A" "\x36")
 	fullbrightarray=("\xB5\00" "\xB8\00" "\xBD\00" "\xB7\00" "\xB2\00")
 	nightarray=("\xB9\00" "\xBB\00" "\xB3\00" "\xBA\00" "\xB6\00")
 	#TODO add brightness commands for white
@@ -199,11 +200,11 @@ function white {
 	elif [ $command = "on" ] || [ $command = "ON" ]
 	then
 		echo "You just turned white bulbs in zone $zone on"
-		sendCmd "${onarray[$zone]}"
+		sendCmd "${onarray[$zone]}$standby"
 	elif [ $command = "off" ] || [ $command = "OFF" ]
 	then
 		echo "You just turned white bulbs in zone $zone off"
-		sendCmd "${offarray[$zone]}"
+		sendCmd "${offarray[$zone]}$standby"
 	else
 		echo "You've done something wrong"
 	fi
