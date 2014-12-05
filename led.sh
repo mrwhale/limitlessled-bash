@@ -53,16 +53,15 @@ function colour {
 	# Array for white commands
 	whitearray=("\xC2\00\x55" "\xC5\00\x55" "\xC7\00\x55" "\xC9\00\x55" "\xC9\00\x55")
 	brightarray=("\x4E\x02\x55" "\x4E\x04\x55" "\x4E\x08\x55" "\x4E\x0A\x55" "\x4E\x0B\x55" "\x4E\xD0\x55" "\x4E\x10\x55" "\x4E\x13\x55" "\x4E\x16\x55" "\x4E\x19\x55" "\x4E\x1B\x55")
-	#TODO add brightness
-		
+
 	if [ $command = "b" ] || [ $command = "B" ]
 	then
 		if [ $param = "full" ]
 		then
-			cmd="\x4E\x3B\x55"
 			echo "You turned colour bulbs in zone $zone to full brightness"
 			selectZone
-			sendCmd "$cmd"
+			cmd="\x4E\x3B\x55"
+			sendCmd $cmd
 		elif [ $param -ge 0 -a $param -le 10 ]
 		then
 			echo "You turned colour bulbs in zone $zone to $param"
@@ -116,8 +115,7 @@ function white {
 	offarray=("\x39\00\x55" "\x3B\00\x55" "\x33\00\x55" "\x3A\00\x55" "\x36\00\x55")
 	fullbrightarray=("\xB5\00\x55" "\xB8\00\x55" "\xBD\00\x55" "\xB7\00\x55" "\xB2\00\x55")
 	nightarray=("\xB9\00\x55" "\xBB\00\x55" "\xB3\00\x55" "\xBA\00\x55" "\xB6\00\x55")
-	#TODO add brightness commands for white
-		
+
 	if [ $command = "b" ] || [ $command = "B" ]
 	then
 		if [ $param = "night" ]
@@ -129,30 +127,30 @@ function white {
 		then
 			echo "You turned white bulbs in zone $zone to full brightness"
             		selectZone
-   	                sendCmd "${nightarray[$zone]}"
+   	                sendCmd "${fullbrightarray[$zone]}"
 		elif [ $param = "up" ]
 		then
-			cmd="\x3C\00\x55"
 			echo "You turned white bulbs in zone $zone up 1 brightness"
 			selectZone
+			cmd="\x3C\00\x55"
 			sendCmd "$cmd"
 		elif [ $param = "down" ]
 		then
-            		cmd="\x34\00\x55"
     	                echo "You turned white bulbs in zone $zone down 1 brightness"
-           	        selectZone
+          	        selectZone
+			cmd="\x34\00\x55"
 			sendCmd "$cmd"
         	elif [ $param = "cool" ]
 		then
-			cmd="\x3f\00\x55"
 	                echo "You cooled down white bulbs in zone $zone"
 	                selectZone
+			cmd="\x3f\00\x55"
 	                sendCmd "$cmd"
 	        elif [ $param = "warm" ]
 		then
-	                cmd="\x3e\00\x55"
 	                echo "You warmed up white bulbs in zone $zone"
 	                selectZone
+			cmd="\x3e\00\x55"
 	                sendCmd "$cmd"
 		elif [ $param = "i" ]
 		then
@@ -163,27 +161,27 @@ function white {
 				read -s -n 1 var
 				case $var in
 				8)
-					cmd="\x3C\00\x55"
 	           		        echo "You turned white bulbs in zone $zone up 1 brightness"
 		                        selectZone
+					cmd="\x3C\00\x55"
 	              		        sendCmd "$cmd"
 					;;
 				2)
-					cmd="\x34\00\x55"
 	                	        echo "You turned white bulbs in zone $zone down 1 brightness"
             		        	selectZone
+					cmd="\x34\00\x55"
 		                        sendCmd "$cmd"
 					;;
 				4)
-					cmd="\x3f\00\x55"
 	                        	echo "You cooled down white bulbs in zone $zone"
 	            		        selectZone
+					cmd="\x3f\00\x55"
 		                        sendCmd "$cmd"
 					;;
 				6)
-					cmd="\x3e\00\x55"
         	                	echo "You warmed up white bulbs in zone $zone"
 	                    		selectZone
+					cmd="\x3e\00\x55"
 		                        sendCmd "$cmd"
 					;;
 				*)
