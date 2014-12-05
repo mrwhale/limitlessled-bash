@@ -25,6 +25,12 @@ function sendCmd {
     echo -n -e "$cmd" >/dev/udp/$ipaddress/$portnum
 }
 
+# Select zone by sending standby cmd and sleep for a second
+function selectZone {
+	sendCmd "${onarray[$zone]}"
+	sleep 0.01
+}
+
 function colour {
 	#RGBW bulb Commands
 	onarray=("\x42\00\x55" "\x45\00\x55" "\x47\00\x55" "\x49\00\x55" "\x4B\00\x55")
@@ -40,14 +46,12 @@ function colour {
 		then
 			cmd="\x4E\x3B\x55"
 			echo "You turned colour bulbs in zone $zone to full brightness"
-			sendCmd "${onarray[$zone]}"
-                        sleep 0.01
+			selectZone
                         sendCmd "$cmd"
 		elif [ $param -ge 0 -a $param -le 10 ]
 		then
 	                echo "You turned colour bulbs in zone $zone to $param"
-                        sendCmd "${onarray[$zone]}"
-                        sleep 0.01
+						selectZone
                         sendCmd "${brightarray[$param]}"
 		else
 			echo "You've done something wrong"
@@ -59,8 +63,7 @@ function colour {
                 if [ $param = "white" ]
                 then
                         echo "You just turned colour bulbs in zone $zone back to white"
-                        sendCmd "${onarray[$zone]}"
-                        sleep 0.01
+						selectZone
                         sendCmd "${whitearray[$zone]}"
 		else
 			for i in "${!colours[@]}"
@@ -74,8 +77,7 @@ function colour {
 			if [ "$isin" -eq "0" ]
 			then
 				echo "You just changed colour bulbs in zone $zone to $param"
-				sendCmd "${onarray[$zone]}"
-				sleep 0.01
+				selectZone
 				sendCmd "${colours[$param]}"
 			else
 				echo "Colour $param isn't configured"
@@ -107,42 +109,36 @@ function white {
 		if [ $param = "night" ]
 		then
 			echo "You turned white bulbs in zone $zone to night-mode"
-			sendCmd "${offarray[$zone]}"
-			sleep 0.01
+			selectZone
 			sendCmd "${nightarray[$zone]}"
 		elif [ $param = "full" ]
 		then
 			echo "You turned white bulbs in zone $zone to full brightness"
-                        sendCmd "${onarray[$zone]}"
-                        sleep 0.01
+						selectZone
                         sendCmd "${nightarray[$zone]}"
 		elif [ $param = "up" ]
 		then
 			cmd="\x3C\00\x55"
 			echo "You turned white bulbs in zone $zone up 1 brightness"
-			sendCmd "${onarray[$zone]}"
-			sleep 0.01
+			selectZone
 			sendCmd "$cmd"
 		elif [ $param = "down" ]
 		then
                         cmd="\x34\00\x55"
                         echo "You turned white bulbs in zone $zone down 1 brightness"
-                        sendCmd "${onarray[$zone]}"
-                        sleep 0.01
+						sselectZone
                         sendCmd "$cmd"
                 elif [ $param = "cool" ]
 		then
                         cmd="\x3f\00\x55"
                         echo "You cooled down white bulbs in zone $zone"
-                        sendCmd "${onarray[$zone]}"
-                        sleep 0.01
+						selectZone
                         sendCmd "$cmd"
                 elif [ $param = "warm" ]
 		then
                         cmd="\x3e\00\x55"
                         echo "You warmed up white bulbs in zone $zone"
-                        sendCmd "${onarray[$zone]}"
-                        sleep 0.01
+						selectZone
                         sendCmd "$cmd"
 		elif [ $param = "i" ]
 		then
@@ -155,29 +151,25 @@ function white {
 				8)
 					cmd="\x3C\00\x55"
 		                        echo "You turned white bulbs in zone $zone up 1 brightness"
-                		        sendCmd "${onarray[$zone]}"
-		                        sleep 0.01
+								selectZone
                 		        sendCmd "$cmd"
 					;;
 				2)
 					cmd="\x34\00\x55"
 		                        echo "You turned white bulbs in zone $zone down 1 brightness"
-        		                sendCmd "${onarray[$zone]}"
-                		        sleep 0.01
+								selectZone
                         		sendCmd "$cmd"
 					;;
 				4)
 					cmd="\x3f\00\x55"
 		                        echo "You cooled down white bulbs in zone $zone"
-        		                sendCmd "${onarray[$zone]}"
-                		        sleep 0.01
+								selectZone
                         		sendCmd "$cmd"
 					;;
 				6)
 					cmd="\x3e\00\x55"
 		                        echo "You warmed up white bulbs in zone $zone"
-        		                sendCmd "${onarray[$zone]}"
-                		        sleep 0.01
+								selectZone
                         		sendCmd "$cmd"
 					;;
 				*)
