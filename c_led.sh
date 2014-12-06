@@ -3,7 +3,7 @@
 if [ -z $1 ]
 then
 	echo "You must enter a parameter:"
-	echo "e.g. 'led.sh' c 1 on #turns colour zone 1 one"
+	echo "e.g. 'led.sh' 1 on #turns colour zone 1 on"
 	exit "1"
 fi
 
