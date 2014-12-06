@@ -11,7 +11,7 @@ fi
 # Config
 ##########
 # Wifi controller information
-ipaddress="10.1.1.23"
+ipaddress="192.168.1.165"
 portnum="8899"
 
 ##########
@@ -44,6 +44,26 @@ function sendOffCommand {
 	standby="\00"
 	sendCmd "${offarray[$zone]}$standby"
 }
+function sendNightCommand {
+	nightarray=("\xB9\00" "\xBB\00" "\xB3\00" "\xBA\00" "\xB6\00")	
+	selectZone
+	sendCmd "${nightarray[$zone]}"	
+}
+function sendFullBrightCommand {
+	fullbrightarray=("\xB5\00" "\xB8\00" "\xBD\00" "\xB7\00" "\xB2\00")
+	selectZone
+	sendCmd "${fullbrightarray[$zone]}"
+}
+function sendBrightDimCommand {
+	brightDim=$1
+	selectZone
+	sendCmd "$brightDim\00"
+}
+function sendCoolWarmCommand {
+	coolWarm=$1
+	selectZone
+	sendCmd "$coolWarm\00"
+}
 
 ##########
 # Input Handling Functions
@@ -57,38 +77,30 @@ function handleOff {
 	sendOffCommand	
 }
 function handleBrightness {
-	fullbrightarray=("\xB5\00" "\xB8\00" "\xBD\00" "\xB7\00" "\xB2\00")
-	nightarray=("\xB9\00" "\xBB\00" "\xB3\00" "\xBA\00" "\xB6\00")	
 	if [ $param = "night" ]
 	then
 		echo "You turned white bulbs in zone $zone to night-mode"
-		selectZone
-		sendCmd "${nightarray[$zone]}"
+		sendNightCommand
 	elif [ $param = "full" ]
 	then
 		echo "You turned white bulbs in zone $zone to full brightness"
-		selectZone
-		sendCmd "${fullbrightarray[$zone]}"
+		sendFullBrightCommand
 	elif [ $param = "up" ]
 	then
 		echo "You turned white bulbs in zone $zone up 1 brightness"
-		selectZone
-		sendCmd "\x3C\00"
+		sendBrightDimCommand "\x3C"
 	elif [ $param = "down" ]
 	then
 		echo "You turned white bulbs in zone $zone down 1 brightness"
-		selectZone
-		sendCmd "\x34\00"
+		sendBrightDimCommand "\x34"
 	elif [ $param = "cool" ]
 	then
 		echo "You cooled down white bulbs in zone $zone"
-		selectZone
-		sendCmd "\x3f\00"
+		sendCoolWarmCommand "\x3f"
 	elif [ $param = "warm" ]
 	then
 		echo "You warmed up white bulbs in zone $zone"
-		selectZone
-		sendCmd "\x3e\00"
+		sendCoolWarmCommand "\x3e"
 	else
 		echo "You've done something wrong"
 	fi		
@@ -102,23 +114,19 @@ function handleInteractive {
 		case $var in
 		8)
 			echo "You turned white bulbs in zone $zone up 1 brightness"
-			selectZone
-			sendCmd "\x3C\00"
+			sendBrightDimCommand "\x3C"
 			;;
 		2)
 			echo "You turned white bulbs in zone $zone down 1 brightness"
-			selectZone
-			sendCmd "\x34\00"
+			sendBrightDimCommand "\x34"
 			;;
 		4)
 			echo "You cooled down white bulbs in zone $zone"
-			selectZone
-			sendCmd "\x3f\00"
+			sendCoolWarmCommand "\x3f"
 			;;
 		6)
 			echo "You warmed up white bulbs in zone $zone"
-			selectZone
-			sendCmd "\x3e\00"
+			sendCoolWarmCommand "\x3e"
 			;;
 		*)
 			echo "wrong key pressed"
