@@ -90,34 +90,27 @@ function handleBrightness {
     fi      
 }
 function handleColor {
-    echo "Attempting to change colour bulbs in zone $zone back to $param"
-    if [ $param = "white" ]
-    then
-        sendWhiteCmd
-    elif [ $param = "purple" ]
-    then
-        sendColorCmd "\x00"
-    elif [ $param = "blue" ]
-    then
-        sendColorCmd "\x20"
-    elif [ $param = "red" ]
-    then
-        sendColorCmd "\xb0"
-   elif [ $param = "green" ]
-    then
-        sendColorCmd "\x60"        
-    elif [ $param = "yellow" ]
-    then
-        sendColorCmd "\x80"
-    elif [ $param = "pink" ]
-    then
-        sendColorCmd "\xC0"
-    elif [ $param = "orange" ]
-    then   
-        sendColorCmd "\xA0"
-    else
-         echo "Colour $param isn't configured"
-    fi
+    echo "Attempting to change colour bulbs in zone $zone to $param"
+    case $param in
+    "white")
+        sendWhiteCmd;;
+    "purple")
+        sendColorCmd "\x00";;
+    "blue")
+        sendColorCmd "\x20";;
+    "red")
+        sendColorCmd "\xb0";;
+    "green")
+        sendColorCmd "\x60";;
+    "yellow")
+        sendColorCmd "\x80";;
+    "pink")
+        sendColorCmd "\xC0";;
+    "orange")
+        sendColorCmd "\xA0";;
+    *)
+        echo "Colour $param isn't configured";;
+    esac
 }
 
 ##########
