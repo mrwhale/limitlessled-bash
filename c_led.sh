@@ -90,30 +90,34 @@ function handleBrightness {
         fi      
 }
 function handleColor {
-        # Check to make sure that the colour specified in the array before trying
-        isin=1
-        if [ $param = "white" ]
-        then
-                echo "You just turned colour bulbs in zone $zone back to white"
-                sendWhiteCmd
-        else
-                declare -A colours=( ["purple"]="\x00" ["blue"]="\x20" ["red"]="\xb0" ["green"]="\x60" ["yellow"]="\x80" ["pink"]="\xC0" ["orange"]="\xA0" )
-                for i in "${!colours[@]}"
-                do
-                        if [ "$i" = "$param" ]
-                        then
-                                isin=0
-                        fi
-                done
-
-                if [ "$isin" -eq "0" ]
-                then
-                        echo "You just changed colour bulbs in zone $zone to $param"
-                        sendColorCmd "${colours[$param]}"
-                else
-                        echo "Colour $param isn't configured"
-                fi
-        fi
+    echo "Attempting to change colour bulbs in zone $zone back to $param"
+    if [ $param = "white" ]
+    then
+        sendWhiteCmd
+    elif [$param = "purple" ]
+    then
+        sendColorCmd "\x00"
+    elif [$param = "blue" ]
+    then
+        sendColorCmd "\x20"
+    elif [$param = "red" ]
+    then
+        sendColorCmd "\xb0"
+   elif [$param = "green" ]
+    then
+        sendColorCmd "\x60"        
+    elif [$param = "yellow" ]
+    then
+        sendColorCmd "\x80"
+    elif [$param = "pink" ]
+    then
+        sendColorCmd "\xC0"
+    elif [$param = "orange" ]
+    then   
+        sendColorCmd "\xA0"
+    else
+         echo "Colour $param isn't configured"
+    fi
 }
 
 ##########
