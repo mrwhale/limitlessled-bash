@@ -94,25 +94,25 @@ function handleColor {
     if [ $param = "white" ]
     then
         sendWhiteCmd
-    elif [$param = "purple" ]
+    elif [ $param = "purple" ]
     then
         sendColorCmd "\x00"
-    elif [$param = "blue" ]
+    elif [ $param = "blue" ]
     then
         sendColorCmd "\x20"
-    elif [$param = "red" ]
+    elif [ $param = "red" ]
     then
         sendColorCmd "\xb0"
-   elif [$param = "green" ]
+   elif [ $param = "green" ]
     then
         sendColorCmd "\x60"        
-    elif [$param = "yellow" ]
+    elif [ $param = "yellow" ]
     then
         sendColorCmd "\x80"
-    elif [$param = "pink" ]
+    elif [ $param = "pink" ]
     then
         sendColorCmd "\xC0"
-    elif [$param = "orange" ]
+    elif [ $param = "orange" ]
     then   
         sendColorCmd "\xA0"
     else
