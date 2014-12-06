@@ -32,22 +32,23 @@ function sendCmd {
     cmd=$1
 	echo -n -e "$cmd$ctrl" >/dev/udp/$ipaddress/$portnum
 }
-# Select zone by sending standby cmd and sleep for a second
-function selectZone {
-    standby="\00"
-	sendCmd "${onarray[$zone]}$standby"
-	sleep 0.01
-}
 
 ##########
 # lightbulb type specific functions
 ##########
 function colour {
+    ##########
+    # Send Command Functions
+    ##########    
     function sendOnCommand {	# On command is also used to select zones
         onarray=("\x42" "\x45" "\x47" "\x49" "\x4B")
         standby="\00"
         sendCmd "${onarray[$zone]}$standby"
     }
+    function selectZone {	# Select zone by sending standby cmd and sleep for a second
+        sendOnCommand
+        sleep 0.01
+    }    
     function sendOffCommand {
         offarray=("\x41" "\x46" "\x48" "\x4A" "\x4C")
         standby="\00"
@@ -147,12 +148,19 @@ function colour {
     fi    
 }
 
-function white {   
+function white {
+    ##########
+    # Send Command Functions
+    ##########    
     function sendOnCommand {	# On command is also used to select zones
     	onarray=("\x35" "\x38" "\x3D" "\x37" "\x32")
     	standby="\00"
     	sendCmd "${onarray[$zone]}$standby"
     }
+    function selectZone {	# Select zone by sending standby cmd and sleep for a second
+        sendOnCommand
+        sleep 0.01
+    }    
     function sendOffCommand {
         offarray=("\x39" "\x3B" "\x33" "\x3A" "\x36")
         standby="\00"
