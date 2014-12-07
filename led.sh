@@ -30,7 +30,7 @@ param="$4"
 function sendCmd {
 	ctrl="\x55"
     cmd=$1
-	echo -n -e "$cmd$ctrl" >/dev/udp/$ipaddress/$portnum
+	echo -n -e "$cmd$ctrl" | nc -w 1 -u $ipaddress $portnum
 }
 
 ##########
