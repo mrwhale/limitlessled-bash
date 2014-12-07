@@ -77,17 +77,16 @@ function handleOff {
     sendOffCommand
 }
 function handleBrightness {
-    if [ $param = "full" ]
-    then
-        echo "You turned colour bulbs in zone $zone to full brightness"
-        sendBrightCmd "18"
-    elif [ $param -ge 0 -a $param -le 10 ]
-    then
-        echo "You turned colour bulbs in zone $zone to $param"
-        sendBrightCmd "$param"
-    else
-        echo "You've done something wrong"
-    fi      
+    case $param in    
+        "full")
+            echo "You turned colour bulbs in zone $zone to full brightness"
+            sendBrightCmd "10";;
+        [0-9])
+            echo "You turned colour bulbs in zone $zone to $param"
+            sendBrightCmd "$param";;
+        *)
+            echo "You've done something wrong";;
+    esac
 }
 function handleColor {
     echo "Attempting to change colour bulbs in zone $zone to $param"
@@ -116,20 +115,15 @@ function handleColor {
 ##########
 # Input Parsing
 ##########
-if [ $command = "on" ] || [ $command = "ON" ]
-then
-    handleOn
-elif [ $command = "off" ] || [ $command = "OFF" ]
-then
-    handleOff
-# Brightness
-elif [ $command = "b" ] || [ $command = "B" ]
-then
-    handleBrightness
-# Color
-elif [ $command = "c" ] || [ $command = "C" ]
-then
-    handleColor
-else
-    echo "You've done something wrong"
-fi
+case $command in
+    "on"|"ON")
+        handleOn;;
+    "off"|"OFF")
+        handOff;;
+    "b"|"B")
+        handleBrightness;;
+    "c"|"C")
+        handleColor;;
+    *)
+        echo "You've done something wrong";;
+esac
