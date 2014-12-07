@@ -28,7 +28,7 @@ param="$3"
 function sendCmd { # Generic send any command the controller
     ctrl="\x55"
     cmd=$1
-    echo -n -e "$cmd$ctrl" | nc -w 1 -u $ipaddress $portnum
+    echo -n -e "$cmd$ctrl" | nc -w 0 -u $ipaddress $portnum
 }
 function sendOnCommand {    # On command is also used to select zones
     onarray=("\x35" "\x38" "\x3D" "\x37" "\x32")
@@ -37,7 +37,7 @@ function sendOnCommand {    # On command is also used to select zones
 }
 function selectZone {    # Select zone by sending standby cmd and sleep for a second
     sendOnCommand
-    sleep 0.01
+    sleep 0
 }
 function sendOffCommand {
     offarray=("\x39" "\x3B" "\x33" "\x3A" "\x36")
