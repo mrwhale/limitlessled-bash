@@ -77,59 +77,50 @@ function handleOff {
 	sendOffCommand	
 }
 function handleBrightness {
-	if [ $param = "night" ]
-	then
-		echo "You turned white bulbs in zone $zone to night-mode"
-		sendNightCommand
-	elif [ $param = "full" ]
-	then
-		echo "You turned white bulbs in zone $zone to full brightness"
-		sendFullBrightCommand
-	elif [ $param = "up" ]
-	then
-		echo "You turned white bulbs in zone $zone up 1 brightness"
-		sendBrightDimCommand "\x3C"
-	elif [ $param = "down" ]
-	then
-		echo "You turned white bulbs in zone $zone down 1 brightness"
-		sendBrightDimCommand "\x34"
-	elif [ $param = "cool" ]
-	then
-		echo "You cooled down white bulbs in zone $zone"
-		sendCoolWarmCommand "\x3f"
-	elif [ $param = "warm" ]
-	then
-		echo "You warmed up white bulbs in zone $zone"
-		sendCoolWarmCommand "\x3e"
-	else
-		echo "You've done something wrong"
-	fi		
+    case $param in
+        "night")
+            echo "You turned white bulbs in zone $zone to night-mode"
+            sendNightCommand;;
+        "full")
+            echo "You turned white bulbs in zone $zone to full brightness"
+            sendFullBrightCommand;;
+        "up")
+            echo "You turned white bulbs in zone $zone up 1 brightness"
+            sendBrightDimCommand "\x3C";;
+        "down")
+            echo "You turned white bulbs in zone $zone down 1 brightness"
+            sendBrightDimCommand "\x34";;
+        "cool")
+            echo "You cooled down white bulbs in zone $zone"
+            sendCoolWarmCommand "\x3f";;
+        "warm")
+            echo "You warmed up white bulbs in zone $zone"
+            sendCoolWarmCommand "\x3e";;
+        *)
+            echo "You've done something wrong"    
+    esac
 }
 function handleInteractive {
-	echo "Press CTRL+C to exit interactive mode"
-	echo "Make sure you have numlock ON when using numpad"
-	for (( ; ; ))
-	do
+    echo "Press CTRL+C to exit interactive mode"
+    echo "Make sure you have numlock ON when using numpad"
+    for (( ; ; ))
+    do
 		read -s -n 1 var
-		case $var in
-		8)
-			echo "You turned white bulbs in zone $zone up 1 brightness"
-			sendBrightDimCommand "\x3C"
-			;;
+        case $var in
+        8)
+            echo "You turned white bulbs in zone $zone up 1 brightness"
+            sendBrightDimCommand "\x3C";;
 		2)
-			echo "You turned white bulbs in zone $zone down 1 brightness"
-			sendBrightDimCommand "\x34"
-			;;
-		4)
-			echo "You cooled down white bulbs in zone $zone"
-			sendCoolWarmCommand "\x3f"
-			;;
-		6)
-			echo "You warmed up white bulbs in zone $zone"
-			sendCoolWarmCommand "\x3e"
-			;;
-		*)
-			echo "wrong key pressed"
+            echo "You turned white bulbs in zone $zone down 1 brightness"
+            sendBrightDimCommand "\x34";;
+        4)
+            echo "You cooled down white bulbs in zone $zone"
+            sendCoolWarmCommand "\x3f";;
+        6)
+            echo "You warmed up white bulbs in zone $zone"
+            sendCoolWarmCommand "\x3e";;
+        *)
+            echo "wrong key pressed"
 		esac
 	done
 }
@@ -137,20 +128,18 @@ function handleInteractive {
 ##########
 # Input Parsing
 ##########
-if [ $command = "on" ] || [ $command = "ON" ]
-then
-	handleOn
-elif [ $command = "off" ] || [ $command = "OFF" ]
-then
-	handleOff
-elif [ $command = "b" ] || [ $command = "B" ]
-then
-	if [ $param = "i" ]
-	then
-		handleInteractive
-	else
-		handleBrightness
-	fi
-else
-	echo "You've done something wrong"
-fi
+case $command in
+    "on"|"ON")
+        handleOn;;
+    "off"|"OFF")
+        handOff;;
+    "b"|"B")
+        if [ $param = "i" ]
+        then
+            handleInteractive
+        else
+            handleBrightness
+        fi;;
+    *)
+        echo "You've done something wrong";;
+esac
