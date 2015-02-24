@@ -57,6 +57,13 @@ function colour {
         cmd="${brightarray[$1]}"
         sendCmd "$bright$cmd"
     }
+    function sendNightMode {
+        offarray=("\x41" "\x46" "\x48" "\x4A" "\x4C")
+	nightarray=("x\C1" "\xC6" "\xC8" "\xCA" "\xCC")
+        standby="\00"
+        sendCmd "${offarray[$zone]}$standby"
+	sendCmd "${nightarray[$zone]}$standby"
+    }
     function sendColorCmd {
         selectZone
         color="\x40"
@@ -90,6 +97,9 @@ function colour {
             [0-9])
                 echo "You turned colour bulbs in zone $zone to $param"
                 sendBrightCmd "$param";;
+	    "night")
+		echo "You just turned colour bulbs in zone $zone to night mode"
+		sendNightMode;;
             *)
                 echo "You've done something wrong";;
         esac
