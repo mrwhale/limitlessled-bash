@@ -15,6 +15,23 @@ ipaddress="10.1.1.23"
 portnum="8899"
 
 ##########
+# Zone Information
+##########
+# Change the value on the left hand side
+#Colour Zones
+all=0
+kitchen=1
+lounge=2
+czone3=3
+czone4=4
+#White Zones
+all=0
+entry=1
+hallway=2
+bed=3
+bedside=4
+
+##########
 # Input
 ##########
 # Script parameters

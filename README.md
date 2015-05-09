@@ -10,6 +10,13 @@ So while I'm at my desk, I don't have to reach for my phone anymore. Just Alt+ta
 
 This works with v3+ of the wifi bridge (when they changed it to port 8899 instead of 5000)
 
+Added the ability to name the zones instead of using numbers
+ie
+```bash
+./led.sh c kitchen on
+```
+will turn the kitchen zone on (which in this example is zone 1. You still have to specify colour or white bulbs
+
 ## Setup
 Open the script, change the ipaddress to either the IP address of the wifi controller, or the broadcast address of your LAN, save, make sure its executable, and your ready to go
 
