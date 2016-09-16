@@ -1,7 +1,7 @@
 limitlessled-bash
 =================
 
-Command line control over limitlessLED lights
+Command line control over limitlessLED lights (Also includes other bulbs under other names such as Milight, easyBulb, futlight)
 
 I trolled the internet and only found snippets of stuff for limitless and command line linux,
 so I decided to create a bash script myself. Primarily to run off my raspberry pi, but in theory can be used anywhere
